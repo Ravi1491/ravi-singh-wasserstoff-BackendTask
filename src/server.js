@@ -82,6 +82,10 @@ app.get("/getUser", (req, res) => {
   res.send(`User API called. Server route: ${req.serverRoute}`);
 });
 
+app.get("/", (req, res) => {
+  res.send(`Load balancer server running at ${req.serverRoute}`);
+});
+
 app.listen(port, () => {
   logger.info(`Load balancer server running on port ${port}`);
 });
