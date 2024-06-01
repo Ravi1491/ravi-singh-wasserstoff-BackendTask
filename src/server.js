@@ -96,6 +96,19 @@ app.get("/balance/leastload", (req, res) => {
   });
 });
 
+function roundRobinMiddleware(req, res, next) {
+  const route = loadBalancer.roundRobin();
+  req.serverRoute = route;
+  next();
+}
+
+// Apply round-robin middleware to all API endpoints
+app.use(roundRobinMiddleware);
+
+app.get("/getUser", (req, res) => {
+  res.send(`User API called. Server route: ${req.serverRoute}`);
+});
+
 app.listen(port, () => {
   logger.info(`Load balancer server running on port ${port}`);
 });
