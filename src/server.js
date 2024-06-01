@@ -58,6 +58,14 @@ app.get("/balance/fifo", (req, res) => {
   });
 });
 
+app.get("/balance/priority", (req, res) => {
+  const route = loadBalancer.priorityQueue();
+  res.send({
+    algorithm: "priority",
+    route: route,
+  });
+});
+
 app.listen(port, () => {
   logger.info(`Load balancer server running on port ${port}`);
 });

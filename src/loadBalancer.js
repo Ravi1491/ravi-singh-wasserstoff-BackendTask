@@ -40,6 +40,18 @@ class LoadBalancer {
     return route.route;
   }
 
+  priorityQueue() {
+    const healthyRoutes = this.getHealthyRoutes();
+    if (healthyRoutes.length === 0) {
+      logger.warn("No healthy routes available.");
+      return null;
+    }
+    healthyRoutes.sort((a, b) => b.priority - a.priority);
+    const route = healthyRoutes[0];
+    logger.info(`Selected route (Priority Queue): ${route.route}`);
+    return route.route;
+  }
+
   roundRobin() {
     const healthyRoutes = this.getHealthyRoutes();
 
