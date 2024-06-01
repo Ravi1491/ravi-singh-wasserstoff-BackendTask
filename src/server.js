@@ -10,9 +10,21 @@ const port = 3000;
 const loadBalancer = new LoadBalancer();
 
 const servers = [
-  { port: 3001, priority: 1 },
-  { port: 3002, priority: 5 },
-  { port: 3003, priority: 3 },
+  {
+    host: "https://ravi-singh-wasserstoff-backendtask-1.onrender.com",
+    port: 3001,
+    priority: 1,
+  },
+  {
+    host: "https://ravi-singh-wasserstoff-backendtask-2.onrender.com/",
+    port: 3002,
+    priority: 5,
+  },
+  {
+    host: "https://ravi-singh-wasserstoff-backendtask-3.onrender.com/",
+    port: 3003,
+    priority: 3,
+  },
 ];
 
 servers.forEach((server) => {
@@ -32,7 +44,7 @@ servers.forEach((server) => {
   });
 
   // Add server to load balancer
-  loadBalancer.addRoute(`http://localhost:${server.port}`, server.priority);
+  loadBalancer.addRoute(server.host, server.priority);
 });
 
 app.get("/health", (req, res) => {
