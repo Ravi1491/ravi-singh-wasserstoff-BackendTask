@@ -50,6 +50,14 @@ app.get("/balance/roundrobin", (req, res) => {
   });
 });
 
+app.get("/balance/fifo", (req, res) => {
+  const route = loadBalancer.fifo();
+  res.send({
+    algorithm: "fifo",
+    route: route,
+  });
+});
+
 app.listen(port, () => {
   logger.info(`Load balancer server running on port ${port}`);
 });

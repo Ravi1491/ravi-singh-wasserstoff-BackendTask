@@ -23,6 +23,23 @@ class LoadBalancer {
     return this.routes.filter((route) => route.healthy);
   }
 
+  fifo() {
+    const healthyRoutes = this.getHealthyRoutes();
+
+    if (healthyRoutes.length === 0) {
+      logger.warn("No healthy routes available.");
+      return null;
+    }
+
+    const route = healthyRoutes.shift();
+
+    healthyRoutes.push(route);
+
+    logger.info(`Selected route (FIFO): ${route.route}`);
+
+    return route.route;
+  }
+
   roundRobin() {
     const healthyRoutes = this.getHealthyRoutes();
 
