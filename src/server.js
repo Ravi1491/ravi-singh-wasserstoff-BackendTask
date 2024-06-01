@@ -3,39 +3,13 @@ import LoadBalancer from "./loadBalancer.js";
 import HealthChecker from "./healthChecker.js";
 import logger from "./logger.js";
 import { applicationConfig } from "../config/index.js";
+import { servers } from "./constant.js";
 
 const app = express();
 app.use(express.json());
 
 const port = applicationConfig.port || 3000;
 const loadBalancer = new LoadBalancer();
-
-const servers = [
-  {
-    host:
-      applicationConfig.env !== "development"
-        ? applicationConfig.loadBalancer.url1
-        : "http://localhost:3001",
-    port: 3001,
-    priority: 1,
-  },
-  {
-    host:
-      applicationConfig.env !== "development"
-        ? applicationConfig.loadBalancer.url2
-        : "http://localhost:3002",
-    port: 3002,
-    priority: 5,
-  },
-  {
-    host:
-      applicationConfig.env !== "development"
-        ? applicationConfig.loadBalancer.url3
-        : "http://localhost:3003",
-    port: 3003,
-    priority: 3,
-  },
-];
 
 servers.forEach((server) => {
   const serverApp = express();
@@ -102,7 +76,6 @@ function roundRobinMiddleware(req, res, next) {
   next();
 }
 
-// Apply round-robin middleware to all API endpoints
 app.use(roundRobinMiddleware);
 
 app.get("/getUser", (req, res) => {
