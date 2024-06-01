@@ -2,26 +2,36 @@ import express from "express";
 import LoadBalancer from "./loadBalancer.js";
 import HealthChecker from "./healthChecker.js";
 import logger from "./logger.js";
+import { applicationConfig } from "../config/index.js";
 
 const app = express();
 app.use(express.json());
 
-const port = 3000;
+const port = applicationConfig.port || 3000;
 const loadBalancer = new LoadBalancer();
 
 const servers = [
   {
-    host: "https://ravi-singh-wasserstoff-backendtask-1.onrender.com",
+    host:
+      applicationConfig.env !== "development"
+        ? applicationConfig.loadBalancer.url1
+        : "http://localhost:3001",
     port: 3001,
     priority: 1,
   },
   {
-    host: "https://ravi-singh-wasserstoff-backendtask-2.onrender.com",
+    host:
+      applicationConfig.env !== "development"
+        ? applicationConfig.loadBalancer.url2
+        : "http://localhost:3002",
     port: 3002,
     priority: 5,
   },
   {
-    host: "https://ravi-singh-wasserstoff-backendtask-3.onrender.com",
+    host:
+      applicationConfig.env !== "development"
+        ? applicationConfig.loadBalancer.url3
+        : "http://localhost:3003",
     port: 3003,
     priority: 3,
   },
