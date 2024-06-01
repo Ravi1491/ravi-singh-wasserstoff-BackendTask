@@ -16,12 +16,12 @@ const servers = [
     priority: 1,
   },
   {
-    host: "https://ravi-singh-wasserstoff-backendtask-2.onrender.com/",
+    host: "https://ravi-singh-wasserstoff-backendtask-2.onrender.com",
     port: 3002,
     priority: 5,
   },
   {
-    host: "https://ravi-singh-wasserstoff-backendtask-3.onrender.com/",
+    host: "https://ravi-singh-wasserstoff-backendtask-3.onrender.com",
     port: 3003,
     priority: 3,
   },
