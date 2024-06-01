@@ -66,6 +66,14 @@ app.get("/balance/priority", (req, res) => {
   });
 });
 
+app.get("/balance/leastload", (req, res) => {
+  const route = loadBalancer.getLeastLoadedRoute();
+  res.send({
+    algorithm: "leastload",
+    route: route,
+  });
+});
+
 app.listen(port, () => {
   logger.info(`Load balancer server running on port ${port}`);
 });

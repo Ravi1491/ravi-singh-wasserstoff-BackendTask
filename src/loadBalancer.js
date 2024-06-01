@@ -42,13 +42,36 @@ class LoadBalancer {
 
   priorityQueue() {
     const healthyRoutes = this.getHealthyRoutes();
+
     if (healthyRoutes.length === 0) {
       logger.warn("No healthy routes available.");
       return null;
     }
+
     healthyRoutes.sort((a, b) => b.priority - a.priority);
+
     const route = healthyRoutes[0];
+
     logger.info(`Selected route (Priority Queue): ${route.route}`);
+    return route.route;
+  }
+
+  getLeastLoadedRoute() {
+    const healthyRoutes = this.getHealthyRoutes();
+
+    if (healthyRoutes.length === 0) {
+      logger.warn("No healthy routes available.");
+      return null;
+    }
+
+    const route = healthyRoutes.reduce((prev, curr) => {
+      console.log("PREV ", prev);
+      console.log("CURR ", curr);
+      return prev.load < curr.load ? prev : curr;
+    });
+
+    logger.info(`Selected route (Least Load): ${route.route}`);
+
     return route.route;
   }
 
